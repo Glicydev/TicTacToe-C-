@@ -14,19 +14,19 @@ using namespace std;
 
 class TicTacToe {
 private:
-    int _size;
     int _nbElements;
 
     void GetWinningPatterns ();
     void BuildPlate();
 
 public:
+    int Size;
     vector<char> Plate;
     string Player = "X";
     vector<WinningPattern> WinningPatterns;
 
     TicTacToe(const int size) {
-        _size = size;
+        Size = size;
         _nbElements = pow(size, 2);
         BuildPlate();
         GetWinningPatterns();

@@ -15,9 +15,9 @@ void TicTacToe::GetWinningPatterns() {
     WinningPatterns.clear();
 
     // Check Rows
-    for (int i = 0; i < _nbElements; i+=_size) {
+    for (int i = 0; i < _nbElements; i+=Size) {
         vector<int> rowPatternVector;
-        for (int j = 0; j < _size; j++) {
+        for (int j = 0; j < Size; j++) {
             rowPatternVector.push_back(i + j);
         }
 
@@ -26,10 +26,10 @@ void TicTacToe::GetWinningPatterns() {
     }
 
     // Check Cols
-    for (int i = 0; i < _size; i++) {
+    for (int i = 0; i < Size; i++) {
         vector<int> colPatternVector;
-        for (int j = 0; j < _size; j++) {
-            colPatternVector.push_back(i + j * _size);
+        for (int j = 0; j < Size; j++) {
+            colPatternVector.push_back(i + j * Size);
         }
 
         WinningPattern rowPattern = WinningPattern(colPatternVector);
@@ -39,16 +39,16 @@ void TicTacToe::GetWinningPatterns() {
 
     // Get diags
     vector<int> diagVector;
-    for (int i = 0; i < _size; ++i) {
-        diagVector.push_back(i * _size + i);
+    for (int i = 0; i < Size; ++i) {
+        diagVector.push_back(i * Size + i);
     }
     WinningPattern diagPattern = WinningPattern(diagVector);
     WinningPatterns.push_back(diagPattern);
 
     // Second diag
     vector<int> secondDiagVector;
-    for (int i = 0; i < _size; ++i) {
-        secondDiagVector.push_back(i * _size + (_size - 1 - i));
+    for (int i = 0; i < Size; ++i) {
+        secondDiagVector.push_back(i * Size + (Size - 1 - i));
     }
     WinningPattern secondDiagPattern = WinningPattern(secondDiagVector);
     WinningPatterns.push_back(secondDiagPattern);
@@ -85,7 +85,7 @@ void TicTacToe::Display() const {
     for (int i = 0; i < _nbElements; i++) {
             cout << "|" << Plate[i] << "|";
 
-            if ((i + 1) % _size == 0 && i != 0) {
+            if ((i + 1) % Size == 0 && i != 0) {
                 cout << endl;
             }
         }

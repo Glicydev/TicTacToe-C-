@@ -11,8 +11,13 @@ double TicAI::GetMoveScore(const TicTacToe& ticTacToe, char player) const {
 
     // Init
     const vector<int> emptyCases = ticTacToe.GetEmptyCases();
-    int variance = (rand()%(_maxVariance-_minVariance + 1) + _minVariance) * emptyCases.size();
-    TicTacToe copy = ticTacToe;
+    int varianceRange = _maxVariance - _minVariance + 1;
+    int baseVariance = rand() % varianceRange + _minVariance;
+
+    // Donne plus de poids à la stratégie quand la partie avance
+    double weight = 1.0 - (emptyCases.size() / ticTacToe.Size);
+
+    int variance = static_cast<int>(baseVariance * weight);    TicTacToe copy = ticTacToe;
     vector<double> futurePoints;
     player = player == 'X' ? 'O' : 'X';
 
