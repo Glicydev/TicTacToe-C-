@@ -23,7 +23,7 @@ private:
 
 public:
     TicTacToeGame(const int& size)
-        : _ticTacToe(size), _ticAI(_ticTacToe, -10, 10, -100, 100), _finished(false) { }
+        : _ticTacToe(size), _ticAI(_ticTacToe, -100, 100, 0, 0), _finished(false) { }
 
     void Start();
 };

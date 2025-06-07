@@ -7,9 +7,26 @@
 
 #include <numeric>
 
+void TicAI::EvaluateBoard(char player, int& score) const
+{
+    for (const WinningPattern& pattern : _ticTacToe.WinningPatterns) {
+        int countPlayer = _ticTacToe.GetNbOfCharInPattern(player, pattern);
+        int countOpponent = _ticTacToe.GetNbOfCharInPattern(player == 'X' ? 'O' : 'X', pattern);
+
+        if (countOpponent == 0) {
+            // Plus il y a de symboles du joueur dans le pattern, mieux c’est
+            score += pow(10, countPlayer);
+        } else if (countPlayer == 0) {
+            // Inverse : danger potentiel
+            score -= pow(10, countOpponent);
+        }
+    }
+}
+
 double TicAI::GetMoveScore(const TicTacToe& ticTacToe, char player, int stage) const {
 
     // Init
+    int score = 0;
     const vector<int> emptyCases = ticTacToe.GetEmptyCases();
     int varianceRange = _maxVariance - _minVariance + 1;
     int baseVariance = rand() % varianceRange + _minVariance;
@@ -17,7 +34,8 @@ double TicAI::GetMoveScore(const TicTacToe& ticTacToe, char player, int stage) c
     // Donne plus de poids à la stratégie quand la partie avance
     double weight = 1.0 - (emptyCases.size() / ticTacToe.Size);
 
-    int variance = static_cast<int>(baseVariance * weight);    TicTacToe copy = ticTacToe;
+    int variance = static_cast<int>(baseVariance * weight);
+    TicTacToe copy = ticTacToe;
     vector<double> futurePoints;
     player = player == 'X' ? 'O' : 'X';
 
@@ -26,12 +44,14 @@ double TicAI::GetMoveScore(const TicTacToe& ticTacToe, char player, int stage) c
         return 0;
     }
     if (ticTacToe.CheckWin('X')) {
-        return _punishment / stage;
+        return _punishment;
     }
     if (ticTacToe.CheckWin('O')) {
         return _reward / stage;
     }
     stage++;
+
+    EvaluateBoard(player, score);
 
     // Get the points because it's not finished
     for (const int emptyCase : emptyCases) {
@@ -44,7 +64,7 @@ double TicAI::GetMoveScore(const TicTacToe& ticTacToe, char player, int stage) c
     }
 
     // Return
-    return accumulate(futurePoints.begin(), futurePoints.end(), 0.0) + variance;
+    return accumulate(futurePoints.begin(), futurePoints.end(), 0.0) + variance + score;
 }
 
 int TicAI::GetBestMove() {
