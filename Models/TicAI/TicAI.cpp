@@ -66,7 +66,7 @@ int TicAI::GetBestMove() {
 
         double score = GetMoveScore(copy, player);
         CaseScore cs = {emptyCase, score};
-        cout << cs.index << ": " << cs.score << endl;
+        // cout << cs.index << ": " << cs.score << endl;
 
         casePoints.push_back(cs);
 
