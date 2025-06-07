@@ -88,8 +88,11 @@ int TicAI::GetAbsoluteMove(char player) {
     int move = -1;
 
     for (const WinningPattern& pattern : _ticTacToe.WinningPatterns) {
-        if (_ticTacToe.GetNbOfCharInPattern(player, pattern) == 2) {
-            move = _ticTacToe.GetEmptyCaseInPattern(pattern);
+        int emptyCase = _ticTacToe.GetEmptyCaseInPattern(pattern);
+
+        if (_ticTacToe.GetNbOfCharInPattern(player, pattern) == _ticTacToe.Size - 1 && emptyCase != -1) {
+            move = emptyCase;
+            break;
         }
     }
 

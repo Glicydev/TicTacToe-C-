@@ -16,7 +16,7 @@ class TicTacToe {
 private:
     int _nbElements;
 
-    void GetWinningPatterns ();
+    void GetWinningPatterns();
     void BuildPlate();
 
 public:

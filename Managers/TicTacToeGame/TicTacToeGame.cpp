@@ -44,6 +44,8 @@ void TicTacToeGame::End(bool& playerStart) {
 }
 
 void TicTacToeGame::MakeIaPlay() {
+    if (_finished) return;
+
     int botChoice = _ticAI.GetBestMove();
     _ticTacToe.Place(botChoice, 'O');
 
@@ -51,9 +53,11 @@ void TicTacToeGame::MakeIaPlay() {
 }
 
 void TicTacToeGame::MakePlayerPlay() {
+    if (_finished) return;
+
     int choice;
 
-    cout << endl << "Choose where to play: ";
+    cout << endl << "Choose where to play:";
     cin >> choice;
     choice--;
 
