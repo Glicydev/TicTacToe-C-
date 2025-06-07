@@ -7,7 +7,7 @@
 
 #include <numeric>
 
-double TicAI::GetMoveScore(const TicTacToe& ticTacToe, char player) const {
+double TicAI::GetMoveScore(const TicTacToe& ticTacToe, char player, int stage) const {
 
     // Init
     const vector<int> emptyCases = ticTacToe.GetEmptyCases();
@@ -26,17 +26,18 @@ double TicAI::GetMoveScore(const TicTacToe& ticTacToe, char player) const {
         return 0;
     }
     if (ticTacToe.CheckWin('X')) {
-        return _punishment;
+        return _punishment / stage;
     }
     if (ticTacToe.CheckWin('O')) {
-        return _reward;
+        return _reward / stage;
     }
+    stage++;
 
     // Get the points because it's not finished
     for (const int emptyCase : emptyCases) {
         copy.Plate[emptyCase] = player;
 
-        double score = GetMoveScore(copy, player);
+        double score = GetMoveScore(copy, player, stage);
         futurePoints.push_back(score);
 
         copy = ticTacToe;
@@ -64,9 +65,9 @@ int TicAI::GetBestMove() {
     for (int emptyCase : emptyCases) {
         copy.Plate[emptyCase] = player;
 
-        double score = GetMoveScore(copy, player);
+        double score = GetMoveScore(copy, player, 1);
         CaseScore cs = {emptyCase, score};
-        // cout << cs.index << ": " << cs.score << endl;
+        cout << cs.index << ": " << cs.score << endl;
 
         casePoints.push_back(cs);
 
