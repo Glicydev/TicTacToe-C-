@@ -7,7 +7,7 @@
 
 #include <numeric>
 
-void TicAI::EvaluateBoard(char player, int& score) const
+void TicAI::EvaluateBoard(char player, double& score) const
 {
     for (const WinningPattern& pattern : _ticTacToe.WinningPatterns) {
         int countPlayer = _ticTacToe.GetNbOfCharInPattern(player, pattern);
@@ -26,15 +26,15 @@ void TicAI::EvaluateBoard(char player, int& score) const
 double TicAI::GetMoveScore(const TicTacToe& ticTacToe, char player, int stage) const {
 
     // Init
-    int score = 0;
+    double score = 0.0;
     const vector<int> emptyCases = ticTacToe.GetEmptyCases();
-    int varianceRange = _maxVariance - _minVariance + 1;
-    int baseVariance = rand() % varianceRange + _minVariance;
+    const int varianceRange = _maxVariance - _minVariance + 1;
+    const int baseVariance = rand() % varianceRange + _minVariance;
 
     // Donne plus de poids à la stratégie quand la partie avance
-    double weight = 1.0 - (emptyCases.size() / ticTacToe.Size);
+    const double weight = 1.0 - (emptyCases.size() / ticTacToe.Size);
 
-    int variance = static_cast<int>(baseVariance * weight);
+    const int variance = static_cast<int>(baseVariance * weight);
     TicTacToe copy = ticTacToe;
     vector<double> futurePoints;
     player = player == 'X' ? 'O' : 'X';
@@ -57,7 +57,7 @@ double TicAI::GetMoveScore(const TicTacToe& ticTacToe, char player, int stage) c
     for (const int emptyCase : emptyCases) {
         copy.Plate[emptyCase] = player;
 
-        double score = GetMoveScore(copy, player, stage);
+        score = GetMoveScore(copy, player, stage);
         futurePoints.push_back(score);
 
         copy = ticTacToe;

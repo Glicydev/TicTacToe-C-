@@ -20,7 +20,7 @@ private:
     int _punishment;
     int _reward;
 
-    void EvaluateBoard(char player, int& score) const;
+    void EvaluateBoard(char player, double& score) const;
     double GetMoveScore(const TicTacToe& ticTacToe, char player, int stage) const;
     int GetAbsoluteMove(char player);
 
